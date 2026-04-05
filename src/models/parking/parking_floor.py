@@ -1,15 +1,18 @@
-from parking_slot import ParkingSlot
+from typing import List
+from parking.parking_slot import ParkingSlot
+
 
 class ParkingFloor:
 
-    def __init__(self,floor_number:int,parking_slots:list[ParkingSlot]):
-
+    def __init__(self, floor_number: int, parking_slots: List[ParkingSlot] = None):
         self.floor_number = floor_number
-        self.parking_slots = parking_slots
+        self.parking_slots = parking_slots or []
 
-    def add_parking_slot(self,slot:ParkingSlot):
+    # The @property decorator creates an alias so code can use floor.slots instead of floor.parking_slots.
+    @property
+    def slots(self) -> List[ParkingSlot]:
+        return self.parking_slots
+
+    def add_parking_slot(self, slot: ParkingSlot):
         self.parking_slots.append(slot)
         return True
-
-
-        
