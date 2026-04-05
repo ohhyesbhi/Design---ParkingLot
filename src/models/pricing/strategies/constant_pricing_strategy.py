@@ -1,16 +1,18 @@
+from datetime import datetime
 from pricing.pricing_strategy import PricingStrategy
 from pricing.pricing_strategy_type import PricingStrategyType
 
+
 class ConstantPricingStrategy(PricingStrategy):
 
-    def __init__( self, price:int ):
-        self.price = price ;
+    def __init__(self, price: float):
+        self.price = price
 
-    def calculate_price(self):
-        return self.price ;
+    def calculate_price(self) -> float:
+        return self.price
     
-    @staticmethod
-    def get_type()->PricingStrategyType:
-        return PricingStrategyType.CONSTANT;
+    @classmethod
+    def get_type(cls) -> PricingStrategyType:
+        return PricingStrategyType.CONSTANT
 
         

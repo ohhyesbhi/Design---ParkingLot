@@ -1,20 +1,22 @@
-import random
-
+from datetime import datetime
 from models.pricing.pricing_strategy import PricingStrategy
-from models.pricing.pricing_strategy_type import PricingStrategyType
-from models.pricing.strategies.hourly_pricing_strategy import HourlyPricingStrategy
-from config.server_config import ServerConfig
+from models.pricing.strategies.composite_pricing_strategy import CompositePricingStrategy
+
 
 class PricingService:
 
     @staticmethod
-    def calculate_pricing_charge(pricing_strategies:list[PricingStrategy]):
-        for i , strategy in enumerate(pricing_strategies):
-          if strategy.get_type() == PricingStrategyType.HOURLY :
-            price_per_hour = ServerConfig.PRICE_PER_HOUR
-            number_of_hours = random.randint(1,20)
-            # You can also have factory class here 
-            pricing_strategies[i] = HourlyPricingStrategy(price_per_hour,number_of_hours)
-
-        return sum(strategy.calculate_price() for strategy in pricing_strategies)
+    def calculate_pricing_charge(
+        pricing_strategies: list[PricingStrategy], 
+        entry_time: datetime, 
+        exit_time: datetime
+    ) -> float:
+        if not pricing_strategies:
+            return 0.0
+        
+        if len(pricing_strategies) == 1:
+            return pricing_strategies[0].calculate_price(entry_time, exit_time)
+        
+        composite = CompositePricingStrategy(pricing_strategies)
+        return composite.calculate_price(entry_time, exit_time)
 
