@@ -5,7 +5,7 @@ class ElectricVehicle(ABC):
 
     @abstractmethod
     def charge(self) -> None:
-        pass
+         pass
 
     @abstractmethod
     def get_battery_percentage(self) -> float:
