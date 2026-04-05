@@ -1,20 +1,19 @@
 import threading
 import uuid
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
+
+from models.parking.parking_lot import ParkingLot
 from models.parking.parking_slot import ParkingSlot
 from models.parking.parking_slot_status import ParkingSlotStatus
+from models.parking.strategies.find_slot_strategy import FindSlotStrategy
 from models.vehicle.vehicle import Vehicle
 from models.ticket.ticket import Ticket
-
-if TYPE_CHECKING:
-    from models.parking.parking_lot import ParkingLot
-    from models.parking.strategies.find_slot_strategy import FindSlotStrategy
 
 
 class ParkingLotService:
 
-    def __init__(self, parking_lot: "ParkingLot", find_slot_strategy: "FindSlotStrategy"):
+    def __init__(self, parking_lot: ParkingLot, find_slot_strategy: FindSlotStrategy):
         self.parking_lot = parking_lot
         self.find_slot_strategy = find_slot_strategy
         self._lock = threading.Lock()
